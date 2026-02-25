@@ -9,7 +9,6 @@ def extract_address_parts(address):
         
         result = {"street": "N/A", "ward": "N/A", "district": "N/A", "city": "N/A"}
         
-        # Data is already structured: street, ward, district, city - separated by comma
         if len(parts) >= 1:
             result["street"] = parts[0]
         if len(parts) >= 2:

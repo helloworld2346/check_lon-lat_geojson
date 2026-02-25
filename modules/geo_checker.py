@@ -17,7 +17,6 @@ class GeoValidator:
                 self.features.append((poly, name))
                 geometries.append(poly)
             
-            # Create spatial index for faster lookup
             self.spatial_index = STRtree(geometries)
             print(f"✓ Loaded {len(self.features)} wards from GeoJSON with spatial indexing")
         
@@ -39,16 +38,13 @@ class GeoValidator:
         
         p = Point(lon, lat)
         
-        # Use spatial index to find candidate geometries
         candidate_indices = list(self.spatial_index.query(p))
         
-        # Check if point is contained in any candidate geometry
         for idx in candidate_indices:
             poly, name = self.features[idx]
             if poly.contains(p):
                 return name
         
-        # If not found in candidates, do full check (edge case)
         for poly, name in self.features:
             if poly.contains(p):
                 return name
